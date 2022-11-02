@@ -23,7 +23,7 @@ app = FastAPI(
         "email": "jorilla.abdullaev@medhub.uz",
     },
     docs_url=None,
-    redoc_url="/docs"
+    redoc_url="/docs",
 )
 
 if settings.SUPERTOKENS_CONNECTION_URI is not None:

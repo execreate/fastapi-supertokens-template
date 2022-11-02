@@ -19,6 +19,6 @@ def init_supertokens(app_name: str):
         recipe_list=[
             session.init(),
         ],
-        framework='fastapi',
-        mode='wsgi',
+        framework="fastapi",
+        mode="wsgi",
     )
