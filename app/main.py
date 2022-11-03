@@ -8,8 +8,7 @@ from core.config import settings
 
 
 description = """
-First beta of MedHub Laboratory API 🚀
-This API is intended for Medical Laboratory Systems that are willing to integrate with MedHub Medical System.
+FastAPI template project 🚀
 """
 
 
@@ -20,7 +19,7 @@ app = FastAPI(
     contact={
         "name": "Jorilla Abdullaev",
         "url": "https://jorilla.t.me",
-        "email": "jorilla.abdullaev@medhub.uz",
+        "email": "jorilla.abdullaev@protonmail.com",
     },
     docs_url=None,
     redoc_url="/docs",

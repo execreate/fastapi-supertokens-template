@@ -1,14 +1,26 @@
 version: "3"
 
 services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - SQLALCHEMY_DATABASE_URI=postgresql+asyncpg://user:pass@postgres_db:5432/my_db
+            - SUPERTOKENS_CONNECTION_URI=http://supertokens_core:3567
+            - SUPERTOKENS_WEBSITE_DOMAIN=http://localhost:3001
+            - SUPERTOKENS_API_DOMAIN=http://localhost:8001
+            - SUPERTOKENS_API_KEY=my-super-secret-api-key
+            - SUPERTOKENS_WEBSITE_BASE_PATH=/
+        ports:
+            - "8001:8080"
+
     postgres_db:
         image: bitnami/postgresql:latest
         environment:
             - POSTGRESQL_USERNAME=user
             - POSTGRESQL_PASSWORD=pass
             - POSTGRESQL_DATABASE=my_db
-        ports:
-            - "5434:5432"
 
     supertokens_core:
         image: registry.supertokens.io/supertokens/supertokens-postgresql:4.1
