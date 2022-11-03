@@ -17,6 +17,9 @@ class GlobalSettings(BaseSettings):
     PROJECT_NAME: str = "FastAPI Template"
     API_V1_STR: str = "/v1"
 
+    DOCS_USERNAME: str = "docs_user"
+    DOCS_PASSWORD: str = "simple_password"
+
     SUPERTOKENS_CONNECTION_URI: AnyHttpUrl | None = None
     SUPERTOKENS_WEBSITE_DOMAIN: AnyHttpUrl | None = None
     SUPERTOKENS_API_DOMAIN: AnyHttpUrl | None = None
