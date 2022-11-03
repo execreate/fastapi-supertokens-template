@@ -29,7 +29,15 @@ async def list_blog_posts(
     return await crud.get_paginated_list(pagination.limit, pagination.offset)
 
 
-@router.get("/{post_id}", response_model=blog_post_schemas.BlogPostSchema)
+@router.get(
+    "/{post_id}",
+    response_model=blog_post_schemas.BlogPostSchema,
+    responses={
+        404: {
+            "description": "Object not found",
+        },
+    },
+)
 async def retrieve_a_blog_post(
     post_id: UUID,
     db=Depends(get_db),

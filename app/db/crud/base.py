@@ -51,13 +51,13 @@ class BaseCrud(
     async def get_by_id(self, entry_id: UUID) -> SCHEMA:
         entry = await self._db_session.get(self._table, entry_id)
         if not entry:
-            raise HTTPException(status_code=404, detail="Item not found")
+            raise HTTPException(status_code=404, detail="Object not found")
         return self._schema.from_orm(entry)
 
     async def delete_by_id(self, entry_id: UUID) -> None:
         entry = await self._db_session.get(self._table, entry_id)
         if not entry:
-            raise HTTPException(status_code=404, detail="Item not found")
+            raise HTTPException(status_code=404, detail="Object not found")
         await self._db_session.delete(entry)  # todo: can we do it with a single query?
         return
 
