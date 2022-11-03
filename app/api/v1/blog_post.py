@@ -48,7 +48,6 @@ async def retrieve_a_blog_post(
 
 @router.delete(
     "/{post_id}",
-    response_model=blog_post_schemas.BlogPostSchema,
     status_code=204,
     responses={
         404: {
