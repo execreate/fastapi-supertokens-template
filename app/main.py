@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.openapi.docs import get_redoc_html
 from fastapi.openapi.utils import get_openapi
 from starlette.middleware.cors import CORSMiddleware
 
@@ -9,8 +10,7 @@ from core.supertokens import init_supertokens
 from core.config import settings
 from core.docs_security import basic_http_credentials
 
-from routers import docs
-
+from api import v1
 
 description = """
 FastAPI template project 🚀
@@ -37,7 +37,7 @@ if settings.SUPERTOKENS_CONNECTION_URI is not None:
 
 
 # include routes here
-app.include_router(docs.router)
+app.include_router(v1.api_router)
 
 
 @app.get("/openapi.json", include_in_schema=False)
@@ -58,9 +58,15 @@ async def openapi(_: str = Depends(basic_http_credentials)):
     return schema
 
 
-@app.get("/ping")
-async def ping() -> str:
-    return "pong"
+@app.get(
+    "/docs", include_in_schema=False, dependencies=[Depends(basic_http_credentials)]
+)
+async def get_redoc_documentation():
+    return get_redoc_html(
+        openapi_url="/openapi.json",
+        title="FastAPI | Documentation",
+        # redoc_favicon_url="https://YOUR_WEBSITE/favicon.ico",
+    )
 
 
 if settings.SUPERTOKENS_CONNECTION_URI is not None:
