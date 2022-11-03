@@ -71,6 +71,8 @@ markupsafe==2.1.1
     # via mako
 phonenumbers==8.12.48
     # via supertokens-python
+psycopg2==2.9.5
+    # via -r requirements.in
 pycparser==2.21
     # via cffi
 pycryptodome==3.10.4

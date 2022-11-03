@@ -1,12 +1,9 @@
-import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-
-sys.path = ["", ".."] + sys.path[1:]  # TODO: Fix it
 
 from core.config import settings  # noqa
 from db.base import Base  # noqa

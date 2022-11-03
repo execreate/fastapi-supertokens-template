@@ -33,9 +33,7 @@ class GlobalSettings(BaseSettings):
     DEBUG: bool = False
     TESTING: bool = False
 
-    DATABASE_URL: Optional[
-        PostgresDsn
-    ] = "postgresql://user:pass@postgres_db:5434/my_db"
+    DATABASE_URL: Optional[PostgresDsn] = "postgresql://user:pass@localhost:5434/my_db"
     DB_ECHO_LOG: bool = False
 
     @property

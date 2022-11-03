@@ -32,8 +32,6 @@ services:
             - POSTGRESQL_DATABASE_NAME=my_database
             - POSTGRESQL_HOST=supertokens_postgres
             - POSTGRESQL_PORT=5432
-        ports:
-            -   "3567:3567"
 
     supertokens_postgres:
         image: bitnami/postgresql:latest
