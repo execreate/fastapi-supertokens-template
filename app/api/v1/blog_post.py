@@ -23,7 +23,5 @@ async def list_blog_posts(
 
 
 @router.get("/{post_id}", response_model=blog_post_schemas.OutBlogPostSchema)
-async def retrieve_a_blog_post(
-    blog_post: blog_post_schemas.InBlogPostSchema, post_id: UUID
-):
+async def retrieve_a_blog_post(post_id: UUID):
     return None
