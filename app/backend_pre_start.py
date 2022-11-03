@@ -22,7 +22,7 @@ wait_seconds = 1
 )
 async def init() -> None:
     try:
-        engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI)
+        engine = create_async_engine(settings.async_database_url)
         async with engine.connect() as conn:
             # Try to create session to check if DB is awake
             await conn.execute(text("SELECT 1"))
