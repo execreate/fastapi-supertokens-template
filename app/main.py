@@ -10,6 +10,8 @@ from core.supertokens import init_supertokens
 from core.config import settings
 from core.docs_security import basic_http_credentials
 
+from db.session import engine
+
 from api import v1
 
 description = """
@@ -67,6 +69,11 @@ async def get_redoc_documentation():
         title="FastAPI | Documentation",
         # redoc_favicon_url="https://YOUR_WEBSITE/favicon.ico",
     )
+
+
+@app.on_event("shutdown")
+async def shutdown_db_engine():
+    await engine.dispose()
 
 
 if settings.SUPERTOKENS_CONNECTION_URI is not None:

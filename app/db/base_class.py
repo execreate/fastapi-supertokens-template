@@ -9,8 +9,12 @@ from sqlalchemy.ext.declarative import as_declarative, declared_attr
 @as_declarative()
 class TimestampedBase:
     id: uuid.UUID = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    created_at = Column(DateTime(), server_default=func.now())
-    modified_at = Column(DateTime(), server_default=func.now(), onupdate=func.now())
+    created_at = Column(
+        DateTime(), server_default=func.now()
+    )  # todo: this breaks everything
+    modified_at = Column(
+        DateTime(), server_default=func.now(), onupdate=func.now()
+    )  # todo: this breaks everything
     __name__: str
 
     # Generate __tablename__ automatically

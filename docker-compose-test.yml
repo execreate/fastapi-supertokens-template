@@ -12,6 +12,7 @@ services:
             - SUPERTOKENS_API_DOMAIN=http://localhost:8001
             - SUPERTOKENS_API_KEY=my-super-secret-api-key
             - SUPERTOKENS_WEBSITE_BASE_PATH=/
+            - DB_ECHO_LOG=1
         ports:
             - "8001:8080"
 
