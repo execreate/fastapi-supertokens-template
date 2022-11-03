@@ -1,5 +1,6 @@
 from typing import Type
 
+from sqlalchemy import desc
 from sqlalchemy.orm import InstrumentedAttribute
 
 from db.crud.base import BaseCrud
@@ -28,4 +29,4 @@ class BlogPostCrud(
 
     @property
     def _order_by(self) -> InstrumentedAttribute:
-        return BlogPost.created_at
+        return desc(BlogPost.created_at)
