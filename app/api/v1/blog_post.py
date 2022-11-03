@@ -25,3 +25,8 @@ async def list_blog_posts(
 @router.get("/{post_id}", response_model=blog_post_schemas.OutBlogPostSchema)
 async def retrieve_a_blog_post(post_id: UUID):
     return None
+
+
+@router.delete("/{post_id}", response_model=blog_post_schemas.OutBlogPostSchema)
+async def delete_a_blog_post(post_id: UUID):
+    return None
