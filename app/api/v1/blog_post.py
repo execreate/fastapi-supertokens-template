@@ -17,7 +17,6 @@ async def create_a_blog_post(blog_post: blog_post_schemas.InBlogPostSchema):
 
 @router.get("", response_model=blog_post_schemas.PaginatedBlogPostSchema)
 async def list_blog_posts(
-    blog_post: blog_post_schemas.InBlogPostSchema,
     pagination=Depends(LimitOffsetPaginationParams),
 ):
     return None
