@@ -18,9 +18,5 @@ class BlogPostSchema(BlogPostSchemaBase):
     modified_at: datetime
 
 
-class OutBlogPostSchema(BlogPostSchema):
-    ...
-
-
-class PaginatedBlogPostSchema(BasePaginatedSchema[OutBlogPostSchema]):
-    ...
+class PaginatedBlogPostSchema(BasePaginatedSchema[BlogPostSchema]):
+    items: list[BlogPostSchema]

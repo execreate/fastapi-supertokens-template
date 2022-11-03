@@ -61,4 +61,6 @@ class BaseCrud(
         total_count = await self._db_session.execute(  # todo: this won't work, refactor
             select(func.count()).select_from(self._table)
         )
-        return self._paginated_schema(total=total_count, items=list(entries))
+        return self._paginated_schema(
+            total=total_count, items=[self._schema.from_orm(entry) for entry in entries]
+        )
