@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import abc
 from typing import Generic, TypeVar, Type
 from uuid import uuid4, UUID
@@ -7,7 +8,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import InstrumentedAttribute
 
-from db.errors import DoesNotExist
 from schemas.base import BaseSchema, BasePaginatedSchema
 
 IN_SCHEMA = TypeVar("IN_SCHEMA", bound=BaseSchema)
@@ -51,8 +51,15 @@ class BaseCrud(
     async def get_by_id(self, entry_id: UUID) -> SCHEMA:
         entry = await self._db_session.get(self._table, entry_id)
         if not entry:
-            raise DoesNotExist(f"{self._table.__name__}<id:{entry_id}> does not exist")
+            raise HTTPException(status_code=404, detail="Item not found")
         return self._schema.from_orm(entry)
+
+    async def delete_by_id(self, entry_id: UUID) -> None:
+        entry = await self._db_session.get(self._table, entry_id)
+        if not entry:
+            raise HTTPException(status_code=404, detail="Item not found")
+        await self._db_session.delete(entry)  # todo: can we do it with a single query?
+        return
 
     async def get_paginated_list(self, limit: int, offset: int) -> PAGINATED_SCHEMA:
         entries = await self._db_session.execute(  # todo: this won't work, refactor
