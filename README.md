@@ -6,7 +6,7 @@ A simple starting point for your [FastAPI](https://fastapi.tiangolo.com) applica
 
 ## About
 
-The template includes some helper scripts to help you get started:
+The template includes the following to help you to get started:
 1. Makefile for dependency management with `pip-tools`
 2. Dockerfile and compose files for local development
 3. SQLAlchemy for ORM (uses async engine) and Alembic for database migrations
