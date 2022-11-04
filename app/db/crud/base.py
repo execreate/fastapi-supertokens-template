@@ -14,12 +14,14 @@ from schemas.base import BaseSchema, BasePaginatedSchema
 
 IN_SCHEMA = TypeVar("IN_SCHEMA", bound=BaseSchema)
 SCHEMA = TypeVar("SCHEMA", bound=BaseSchema)
+PARTIAL_UPDATE_SCHEMA = TypeVar("PARTIAL_UPDATE_SCHEMA", bound=BaseSchema)
 PAGINATED_SCHEMA = TypeVar("PAGINATED_SCHEMA", bound=BasePaginatedSchema)
 TABLE = TypeVar("TABLE")
 
 
 class BaseCrud(
-    Generic[IN_SCHEMA, SCHEMA, PAGINATED_SCHEMA, TABLE], metaclass=abc.ABCMeta
+    Generic[IN_SCHEMA, PARTIAL_UPDATE_SCHEMA, SCHEMA, PAGINATED_SCHEMA, TABLE],
+    metaclass=abc.ABCMeta,
 ):
     def __init__(self, db_session: AsyncSession, *args, **kwargs) -> None:
         self._db_session: AsyncSession = db_session
@@ -58,6 +60,18 @@ class BaseCrud(
         entry = await self._db_session.get(self._table, entry_id)
         if not entry:
             raise HTTPException(status_code=404, detail="Object not found")
+        return self._schema.from_orm(entry)
+
+    async def update_by_id(
+        self, entry_id: UUID, in_data: PARTIAL_UPDATE_SCHEMA
+    ) -> SCHEMA:
+        entry = await self._db_session.get(self._table, entry_id)
+        if not entry:
+            raise HTTPException(status_code=404, detail="Object not found")
+        in_data_dict: dict = in_data.dict(exclude_unset=True)
+        for _k, _v in in_data_dict.items():
+            setattr(entry, _k, _v)
+        await self._db_session.commit()
         return self._schema.from_orm(entry)
 
     async def delete_by_id(self, entry_id: UUID) -> None:

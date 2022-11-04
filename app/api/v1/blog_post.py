@@ -46,6 +46,24 @@ async def retrieve_a_blog_post(
     return await crud.get_by_id(post_id)
 
 
+@router.patch(
+    "/{post_id}",
+    response_model=blog_post_schemas.BlogPostSchema,
+    responses={
+        404: {
+            "description": "Object not found",
+        },
+    },
+)
+async def update_a_blog_post(
+    post_id: UUID,
+    blog_post: blog_post_schemas.UpdateBlogPostSchema,
+    db=Depends(get_db),
+):
+    crud = BlogPostCrud(db)
+    return await crud.update_by_id(post_id, blog_post)
+
+
 @router.delete(
     "/{post_id}",
     status_code=204,

@@ -8,6 +8,11 @@ class BlogPostSchemaBase(BaseSchema):
     body: str
 
 
+class UpdateBlogPostSchema(BaseSchema):
+    title: str = ""
+    body: str = ""
+
+
 class InBlogPostSchema(BlogPostSchemaBase):
     ...
 

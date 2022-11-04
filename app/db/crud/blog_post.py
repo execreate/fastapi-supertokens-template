@@ -7,13 +7,20 @@ from db.crud.base import BaseCrud
 from db.tables.blog_post import BlogPost
 from schemas.blog_post import (
     InBlogPostSchema,
+    UpdateBlogPostSchema,
     BlogPostSchema,
     PaginatedBlogPostSchema,
 )
 
 
 class BlogPostCrud(
-    BaseCrud[InBlogPostSchema, BlogPostSchema, PaginatedBlogPostSchema, BlogPost]
+    BaseCrud[
+        InBlogPostSchema,
+        UpdateBlogPostSchema,
+        BlogPostSchema,
+        PaginatedBlogPostSchema,
+        BlogPost,
+    ]
 ):
     @property
     def _table(self) -> Type[BlogPost]:
@@ -24,9 +31,9 @@ class BlogPostCrud(
         return BlogPostSchema
 
     @property
-    def _paginated_schema(self) -> Type[PaginatedBlogPostSchema]:
-        return PaginatedBlogPostSchema
-
-    @property
     def _order_by(self) -> InstrumentedAttribute:
         return desc(BlogPost.created_at)
+
+    @property
+    def _paginated_schema(self) -> Type[PaginatedBlogPostSchema]:
+        return PaginatedBlogPostSchema
