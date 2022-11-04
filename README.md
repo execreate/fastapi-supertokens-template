@@ -17,12 +17,24 @@ The template includes some helper scripts to help you get started:
 TDB:
 - Tests
 
-Make sure to mark the `app/` folder as source in your IDE otherwise you'll get import errors.
-
 ## How to use
 
-Just click on "Use this template" button to start coding. You'll find [a dummy app](app/api/v1/blog_post.py) that
-demonstrates how to use [CRUD factory](app/db/crud/base.py).
+Make sure to mark the `app/` folder as source in your IDE otherwise you'll get import errors.
+And since all your code (except test) lives inside `app/` folder, you should import modules like this:
+```python
+from core.config import settings
+```
+
+and NOT like this:
+```python
+# this will throw an error!
+from app.core.config import settings
+```
+
+### Start coding
+
+Just click on that green `Use this template` button to start coding. There is [a dummy app](app/api/v1/blog_post.py) that
+is already implemented for you so that you can quickly learn how to use the [CRUD factory](app/db/crud/base.py).
 
 ### Local setup
 
@@ -35,3 +47,7 @@ If you want to run your app containerized you can run the other compose file:
 ```shell
 docker compose -f docker-compose-test.yml up -d
 ```
+
+If you run the command above without changing the code, you can find the
+[documentation page here](http://localhost:8001/docs). The default username is `docs_user`
+and the password is `simple_password`.
