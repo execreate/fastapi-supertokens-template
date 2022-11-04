@@ -22,6 +22,8 @@ services:
             - POSTGRESQL_USERNAME=user
             - POSTGRESQL_PASSWORD=pass
             - POSTGRESQL_DATABASE=my_db
+        ports:
+            - "5434:5432"
 
     supertokens_core:
         image: registry.supertokens.io/supertokens/supertokens-postgresql:4.1

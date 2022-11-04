@@ -1,9 +1,11 @@
-from fastapi import HTTPException
 import abc
-from typing import Generic, TypeVar, Type
+from datetime import datetime
 from uuid import uuid4, UUID
+from typing import Generic, TypeVar, Type
+from fastapi import HTTPException
 
 from sqlalchemy import func
+from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import InstrumentedAttribute
@@ -43,7 +45,11 @@ class BaseCrud(
         ...
 
     async def create(self, in_schema: IN_SCHEMA) -> SCHEMA:
-        entry = self._table(id=uuid4(), **in_schema.dict())
+        entry_id = uuid4()
+        now = datetime.now()
+        entry = self._table(
+            id=entry_id, created_at=now, modified_at=now, **in_schema.dict()
+        )
         self._db_session.add(entry)
         await self._db_session.commit()
         return self._schema.from_orm(entry)
@@ -58,16 +64,18 @@ class BaseCrud(
         entry = await self._db_session.get(self._table, entry_id)
         if not entry:
             raise HTTPException(status_code=404, detail="Object not found")
-        await self._db_session.delete(entry)  # todo: can we do it with a single query?
+        await self._db_session.delete(entry)
         return
 
     async def get_paginated_list(self, limit: int, offset: int) -> PAGINATED_SCHEMA:
-        entries = await self._db_session.execute(  # todo: this won't work, refactor
+        result: Result = await self._db_session.execute(
             select(self._table).order_by(self._order_by).limit(limit).offset(offset)
         )
-        total_count = await self._db_session.execute(  # todo: this won't work, refactor
+        entries = result.scalars()
+        total_count: Result = await self._db_session.execute(
             select(func.count()).select_from(self._table)
         )
         return self._paginated_schema(
-            total=total_count, items=[self._schema.from_orm(entry) for entry in entries]
+            total=total_count.scalar(),
+            items=[self._schema.from_orm(entry) for entry in entries],
         )
