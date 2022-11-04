@@ -1,8 +1,7 @@
-# MedHub FastAPI template
+# FastAPI + Supertokens template
 
 A simple starting point for your [FastAPI](https://fastapi.tiangolo.com) application that uses
 [Supertokens](https://supertokens.com) for user auth.
-
 
 ## About
 
