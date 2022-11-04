@@ -1,5 +1,4 @@
 import abc
-from datetime import datetime
 from uuid import uuid4, UUID
 from typing import Generic, TypeVar, Type
 from fastapi import HTTPException
@@ -47,11 +46,7 @@ class BaseCrud(
         ...
 
     async def create(self, in_schema: IN_SCHEMA) -> SCHEMA:
-        entry_id = uuid4()
-        now = datetime.now()
-        entry = self._table(
-            id=entry_id, created_at=now, modified_at=now, **in_schema.dict()
-        )
+        entry = self._table(id=uuid4(), **in_schema.dict())
         self._db_session.add(entry)
         await self._db_session.commit()
         return self._schema.from_orm(entry)
