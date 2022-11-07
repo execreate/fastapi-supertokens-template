@@ -19,7 +19,7 @@ TDB:
 ## How to use
 
 Make sure to mark the `app/` folder as source in your IDE otherwise you'll get import errors.
-And since all your code (except test) lives inside `app/` folder, you should import modules like this:
+And since all your code (except tests) lives inside `app/` folder, you should import modules like this:
 ```python
 from core.config import settings
 ```
