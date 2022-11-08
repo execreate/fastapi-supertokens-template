@@ -13,8 +13,8 @@ The template includes the following to help you to get started:
 5. CRUD operations generic class with pagination
 6. Support for API versioning (`https://api.yourdomain.com/v1/`)
 
-TDB:
-- Tests
+__TODO:__
+- Tests are yet to come
 
 ## How to use
 
@@ -41,8 +41,12 @@ The following command will start a Postgres database and a Supertokens core loca
 ```shell
 docker compose -f docker-compose-local.yml up -d
 ```
+so that you can do
+```shell
+cd app; uvicorn main:app
+```
 
-If you want to run your app containerized you can run the other compose file:
+Otherwise, if you want to build a docker container with your app and run it, you can use the other compose file:
 ```shell
 docker compose -f docker-compose-test.yml up -d
 ```
