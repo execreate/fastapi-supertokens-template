@@ -1,4 +1,5 @@
 from uuid import UUID
+from sqlalchemy.ext.asyncio import AsyncSession
 from api.dependencies.database import get_db
 from fastapi import APIRouter, Depends, Response, status
 from schemas import blog_post as blog_post_schemas
@@ -14,16 +15,18 @@ router = APIRouter(
 
 @router.post("", status_code=201, response_model=blog_post_schemas.BlogPostSchema)
 async def create_a_blog_post(
-    blog_post: blog_post_schemas.InBlogPostSchema, db=Depends(get_db)
+    blog_post: blog_post_schemas.InBlogPostSchema, db: AsyncSession = Depends(get_db)
 ):
     crud = BlogPostCrud(db)
-    return await crud.create(blog_post)
+    result = await crud.create(blog_post)
+    await db.commit()
+    return result
 
 
 @router.get("", response_model=blog_post_schemas.PaginatedBlogPostSchema)
 async def list_blog_posts(
     pagination: LimitOffsetPaginationParams = Depends(),
-    db=Depends(get_db),
+    db: AsyncSession = Depends(get_db),
 ):
     crud = BlogPostCrud(db)
     return await crud.get_paginated_list(pagination.limit, pagination.offset)
@@ -40,7 +43,7 @@ async def list_blog_posts(
 )
 async def retrieve_a_blog_post(
     post_id: UUID,
-    db=Depends(get_db),
+    db: AsyncSession = Depends(get_db),
 ):
     crud = BlogPostCrud(db)
     return await crud.get_by_id(post_id)
@@ -58,10 +61,12 @@ async def retrieve_a_blog_post(
 async def update_a_blog_post(
     post_id: UUID,
     blog_post: blog_post_schemas.UpdateBlogPostSchema,
-    db=Depends(get_db),
+    db: AsyncSession = Depends(get_db),
 ):
     crud = BlogPostCrud(db)
-    return await crud.update_by_id(post_id, blog_post)
+    result = await crud.update_by_id(post_id, blog_post)
+    await db.commit()
+    return result
 
 
 @router.delete(
@@ -75,8 +80,9 @@ async def update_a_blog_post(
 )
 async def delete_a_blog_post(
     post_id: UUID,
-    db=Depends(get_db),
+    db: AsyncSession = Depends(get_db),
 ):
     crud = BlogPostCrud(db)
     await crud.delete_by_id(post_id)
+    await db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)

@@ -48,7 +48,7 @@ class BaseCrud(
     async def create(self, in_schema: IN_SCHEMA) -> SCHEMA:
         entry = self._table(id=uuid4(), **in_schema.dict())
         self._db_session.add(entry)
-        await self._db_session.commit()
+        await self._db_session.flush()
         return self._schema.from_orm(entry)
 
     async def get_by_id(self, entry_id: UUID) -> SCHEMA:
@@ -66,7 +66,7 @@ class BaseCrud(
         in_data_dict: dict = in_data.dict(exclude_unset=True)
         for _k, _v in in_data_dict.items():
             setattr(entry, _k, _v)
-        await self._db_session.commit()
+        await self._db_session.flush()
         return self._schema.from_orm(entry)
 
     async def delete_by_id(self, entry_id: UUID) -> None:
@@ -74,6 +74,7 @@ class BaseCrud(
         if not entry:
             raise HTTPException(status_code=404, detail="Object not found")
         await self._db_session.delete(entry)
+        await self._db_session.flush()
         return
 
     async def get_paginated_list(self, limit: int, offset: int) -> PAGINATED_SCHEMA:
