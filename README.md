@@ -12,9 +12,7 @@ The template includes the following to help you to get started:
 4. Simple authentication for docs page
 5. CRUD operations generic class with pagination
 6. Support for API versioning (`https://api.yourdomain.com/v1/`)
-
-__TODO:__
-- Tests are yet to come
+7. Testing setup
 
 ## How to use
 
@@ -50,6 +48,23 @@ Otherwise, if you want to build a docker container with your app and run it, you
 ```shell
 docker compose -f docker-compose-test.yml up -d
 ```
+
+### Tests
+
+Place your tests in `tests/` folder in the root of the project and run the following command:
+```shell
+ENVIRONMENT=test pytest
+```
+
+To run the tests you need a database, you can set it up with docker compose as shown above. Don't forget to run
+migrations too:
+```shell
+alembic upgrade head
+```
+
+Check out the [tests folder](tests) for more information.
+
+### Documentation
 
 If you run the command above without changing the code, you can find the
 [documentation page here](http://localhost:8001/docs). The default username is `docs_user`
