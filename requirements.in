@@ -1,4 +1,4 @@
-fastapi
+fastapi[all]
 pydantic[email]
 supertokens_python
 gunicorn
@@ -8,3 +8,5 @@ asyncpg
 tenacity
 alembic
 psycopg2
+factory-boy
+pytest-asyncio

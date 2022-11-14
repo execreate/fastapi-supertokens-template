@@ -20,7 +20,7 @@ async def create_a_blog_post(
 ):
     crud = BlogPostCrud(db)
     result = await crud.create(blog_post)
-    await db.commit()
+    await crud.commit_session()
     return result
 
 
@@ -66,7 +66,7 @@ async def update_a_blog_post(
 ):
     crud = BlogPostCrud(db)
     result = await crud.update_by_id(post_id, blog_post)
-    await db.commit()
+    await crud.commit_session()
     return result
 
 
@@ -85,5 +85,5 @@ async def delete_a_blog_post(
 ):
     crud = BlogPostCrud(db)
     await crud.delete_by_id(post_id)
-    await db.commit()
+    await crud.commit_session()
     return Response(status_code=status.HTTP_204_NO_CONTENT)

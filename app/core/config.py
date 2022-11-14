@@ -10,7 +10,7 @@ class EnvironmentEnum(str, Enum):
     PRODUCTION = "production"
     STAGING = "staging"
     DEVELOP = "develop"
-    LOCAL = "local"
+    TEST = "test"
 
 
 class GlobalSettings(BaseSettings):
@@ -31,7 +31,6 @@ class GlobalSettings(BaseSettings):
 
     ENVIRONMENT: EnvironmentEnum
     DEBUG: bool = False
-    TESTING: bool = False
 
     DATABASE_URL: Optional[PostgresDsn] = "postgresql://user:pass@localhost:5434/my_db"
     DB_ECHO_LOG: bool = False
@@ -48,9 +47,9 @@ class GlobalSettings(BaseSettings):
         case_sensitive = True
 
 
-class LocalSettings(GlobalSettings):
+class TestSettings(GlobalSettings):
     DEBUG = True
-    ENVIRONMENT = EnvironmentEnum.LOCAL
+    ENVIRONMENT = EnvironmentEnum.TEST
 
 
 class DevelopSettings(GlobalSettings):
@@ -78,10 +77,10 @@ class FactoryConfig:
                 return ProductionSettings()
             case EnvironmentEnum.STAGING:
                 return StagingSettings()
-            case EnvironmentEnum.DEVELOP:
-                return DevelopSettings()
+            case EnvironmentEnum.TEST:
+                return TestSettings()
             case _:
-                return LocalSettings()
+                return DevelopSettings()
 
 
 @lru_cache()

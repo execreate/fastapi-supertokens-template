@@ -1,4 +1,5 @@
 import abc
+import logging
 from uuid import uuid4, UUID
 from typing import Generic, TypeVar, Type
 from fastapi import HTTPException
@@ -10,12 +11,16 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import InstrumentedAttribute
 
 from schemas.base import BaseSchema, BasePaginatedSchema
+from core.config import settings, EnvironmentEnum
 
 IN_SCHEMA = TypeVar("IN_SCHEMA", bound=BaseSchema)
 SCHEMA = TypeVar("SCHEMA", bound=BaseSchema)
 PARTIAL_UPDATE_SCHEMA = TypeVar("PARTIAL_UPDATE_SCHEMA", bound=BaseSchema)
 PAGINATED_SCHEMA = TypeVar("PAGINATED_SCHEMA", bound=BasePaginatedSchema)
 TABLE = TypeVar("TABLE")
+
+
+logger = logging.getLogger(__name__)
 
 
 class BaseCrud(
@@ -44,6 +49,16 @@ class BaseCrud(
     @abc.abstractmethod
     def _paginated_schema(self) -> Type[PAGINATED_SCHEMA]:
         ...
+
+    async def commit_session(self):
+        """
+        Commits the session if not in testing environment
+        :return: None
+        """
+        if settings.ENVIRONMENT == EnvironmentEnum.TEST:
+            return
+
+        await self._db_session.commit()
 
     async def create(self, in_schema: IN_SCHEMA) -> SCHEMA:
         entry = self._table(id=uuid4(), **in_schema.dict())
