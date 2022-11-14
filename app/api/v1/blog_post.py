@@ -15,7 +15,8 @@ router = APIRouter(
 
 @router.post("", status_code=201, response_model=blog_post_schemas.BlogPostSchema)
 async def create_a_blog_post(
-    blog_post: blog_post_schemas.InBlogPostSchema, db: AsyncSession = Depends(get_db_session)
+    blog_post: blog_post_schemas.InBlogPostSchema,
+    db: AsyncSession = Depends(get_db_session),
 ):
     crud = BlogPostCrud(db)
     result = await crud.create(blog_post)
