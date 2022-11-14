@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.dependencies.database import get_db
 from fastapi import APIRouter, Depends, Response, status
 from schemas import blog_post as blog_post_schemas
-from core.pagination import LimitOffsetPaginationParams
+from schemas.pagination import LimitOffsetPaginationParams
 from db.crud.blog_post import BlogPostCrud
 
 

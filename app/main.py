@@ -8,7 +8,7 @@ from supertokens_python import get_all_cors_headers
 
 from core.supertokens import init_supertokens
 from core.config import settings
-from core.docs_security import basic_http_credentials
+from api.dependencies.docs_security import basic_http_credentials
 
 from db.session import engine
 
