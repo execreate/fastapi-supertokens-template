@@ -9,9 +9,6 @@ from typing import Generator, Callable
 from db.session import async_session, engine
 
 
-os.environ.setdefault("ENVIRONMENT", "test")
-
-
 @pytest_asyncio.fixture(scope="session")
 def event_loop(request) -> Generator:
     """Create an instance of the default event loop for each test case."""
