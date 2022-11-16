@@ -1,4 +1,4 @@
-import os
+from .setup_env import *  # noqa: setup test env
 import asyncio
 import pytest_asyncio
 from fastapi import FastAPI
