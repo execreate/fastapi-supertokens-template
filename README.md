@@ -66,6 +66,6 @@ Check out the [tests folder](tests) for more information.
 
 ### Documentation
 
-If you run the command above without changing the code, you can find the
+If you run the code without any changes, you'll find the
 [documentation page here](http://localhost:8001/docs). The default username is `docs_user`
 and the password is `simple_password`.
