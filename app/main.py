@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.openapi.docs import get_redoc_html
 from fastapi.openapi.utils import get_openapi
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
 from supertokens_python.framework.fastapi import get_middleware
@@ -32,6 +33,8 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.TRUSTED_HOSTS)
 
 if settings.SUPERTOKENS_CONNECTION_URI is not None:
     init_supertokens(settings.PROJECT_NAME)
