@@ -27,7 +27,7 @@ class GlobalSettings(BaseSettings):
     SUPERTOKENS_API_BASE_PATH: str = "/auth"
     SUPERTOKENS_WEBSITE_BASE_PATH: str = "/"
 
-    TRUSTED_HOSTS: Set[AnyHttpUrl] = {"app", "localhost", "0.0.0.0"}
+    TRUSTED_HOSTS: Set[str] = {"app", "localhost", "0.0.0.0"}
     BACKEND_CORS_ORIGINS: Set[AnyHttpUrl] = set()
 
     ENVIRONMENT: EnvironmentEnum
